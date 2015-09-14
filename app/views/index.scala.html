@@ -1,0 +1,86 @@
+@main("Welcome to Play") {
+    <html>
+        <head>
+            <script>
+                $(document).ready(function() {
+                    $("#formmenu").accordion();
+
+                    $("#regsubmit").click(function() {
+                        var fname = $("#regfname").val();
+                        var lname = $("#reglname").val();
+                        var pass = $("#regpass").val();
+
+                        $.ajax({
+                            type: "post",
+                            url: "@routes.Application.register()",
+                            data: "fname=" + fname + "&lname=" + lname +
+                                        "&pass=" + pass
+                        }).success(function(response) {
+                            if (response === "1") {
+                                $("#regdiv").html("User registered!");
+                            } else if (response === "2") {
+                                $("#regdiv").html("Already registered...");
+                            } else if (response === "3") {
+                                $("#regdiv").html("User not in database.");
+                            }
+                        })
+                    });
+
+                    $("#logsubmit").click(function() {
+                        var fname = $("#logfname").val();
+                        var pass = $("#logpass").val();
+
+                        $.ajax({
+                            url: "@routes.Application.login()",
+                            type: "post",
+                            data: "fn=" + fname + "&ps=" + pass
+                        }).success(function(response) {
+                            if (response === "1") {
+                                $("#logdiv").html("User logged in!");
+
+                                $(".form").fadeOut("slow");
+                            } else if (response === "2") {
+                                $("#logdiv").html("Wrong name or password.");
+                            }
+                        })
+                    })
+                });
+
+            </script>
+        </head>
+
+        <body>
+            <menu id="formmenu">
+                <h3 class="form">Registration</h3>
+                <div class="form">
+                    Please fill in the form below... <br>
+                    <form action="" method="post">
+                        <input type="text" placeholder="First name" id="regfname"/> <br>
+                        <input type="text" placeholder="Last name" id="reglname"/> <br>
+                        <input type="password" placeholder="Password" id="regpass"/> <br>
+                        <input type="button" value="Register" id="regsubmit"/>
+                    </form>
+
+                    <div id="regdiv">
+
+                    </div>
+                </div>
+
+                <h3 class="form">Login</h3>
+                <div class="form">
+                    Please login to continue... <br>
+                    <form action="" method="post">
+                        <input type="text" placeholder="First name" id="logfname" /> <br>
+                        <input type="password" placeholder="Password" id="logpass" /> <br>
+                        <input type="button" value="Login" id="logsubmit"/>
+                    </form>
+
+                    <div id="logdiv">
+
+                    </div>
+                </div>
+            </menu>
+        </body>
+
+    </html>
+}
