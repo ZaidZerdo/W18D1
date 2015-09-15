@@ -29,6 +29,10 @@ public class User extends Model {
         return finder.all();
     }
 
+    public static User findUser(String id) {
+        return finder.byId(id);
+    }
+
     @Override
     public String toString() {
         return fname + " " + lname + "(" + password + ")";

@@ -23,6 +23,10 @@ create table user_task (
   task_id                        varchar(255) not null,
   constraint pk_user_task primary key (user_id, task_id))
 ;
+create sequence task_seq;
+
+create sequence user_seq;
+
 
 
 
@@ -32,13 +36,17 @@ alter table user_task add constraint fk_user_task_task_02 foreign key (task_id) 
 
 # --- !Downs
 
-SET FOREIGN_KEY_CHECKS=0;
+SET REFERENTIAL_INTEGRITY FALSE;
 
-drop table task;
+drop table if exists task;
 
-drop table user;
+drop table if exists user;
 
-drop table user_task;
+drop table if exists user_task;
 
-SET FOREIGN_KEY_CHECKS=1;
+SET REFERENTIAL_INTEGRITY TRUE;
+
+drop sequence if exists task_seq;
+
+drop sequence if exists user_seq;
 
